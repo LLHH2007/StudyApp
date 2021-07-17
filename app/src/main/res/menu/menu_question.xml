@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/quesAll"
+        android:title="All questions"
+        app:showAsAction="never"
+        android:icon="@drawable/search_book"/>
+    <item
+        android:id="@+id/quesJava"
+        android:title="Java"
+        android:icon="@drawable/ico_java"/>
+    <item
+        android:id="@+id/quesPython"
+        android:title="Python"
+        app:showAsAction="never"
+        android:icon="@drawable/ico_python"/>
+    <item
+        android:id="@+id/quesCSharp"
+        android:title="C#"
+        app:showAsAction="never"
+        android:icon="@drawable/ico_csharp"/>
+    <item
+        android:id="@+id/quesJS"
+        android:title="JavaScript"
+        app:showAsAction="never"
+        android:icon="@drawable/ico_javascript"/>
+</menu>

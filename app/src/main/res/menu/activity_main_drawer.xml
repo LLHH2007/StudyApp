@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ico_home"
+            android:title="@string/menu_home" />
+    </group>
+
+    <item android:title="Multi choice questions">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_java"
+                    android:icon="@drawable/ico_java"
+                    android:title="Java" />
+                <item
+                    android:id="@+id/nav_python"
+                    android:icon="@drawable/ico_python"
+                    android:title="Python" />
+                <item
+                    android:id="@+id/nav_csharp"
+                    android:icon="@drawable/ico_csharp"
+                    android:title="C#" />
+                <item
+                    android:id="@+id/nav_javascript"
+                    android:icon="@drawable/ico_javascript"
+                    android:title="Javascript" />
+                <item
+                    android:id="@+id/nav_viewScore"
+                    android:icon="@drawable/ico_javascript"
+                    android:title="View Score" />
+                <item
+                    android:id="@+id/search"
+                    android:icon="@drawable/ico_javascript"
+                    android:title="Search question" />
+            </group>
+        </menu>
+    </item>
+    >
+</menu>
