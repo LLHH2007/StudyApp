@@ -77,4 +77,8 @@ public class QuestionController {
         }
         return data;
     }
+
+    public void insertQuestion(String question, String ansA, String AnsB, String AnsC, String AnsD, String result,String subject){
+        databaseHelper.QueryData("Insert into question values (null,'"+question+"','"+ansA+"','"+AnsB+"','"+AnsC+"','"+AnsD+"','"+result+"','"+subject+"')");
+    }
 }

@@ -43,7 +43,7 @@ public class ScoreFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         scoreController = new ScoreController();
         lvScore = (ListView) getActivity().findViewById(R.id.lvScores);
-        Cursor cursor = scoreController.getAll();
+        Cursor cursor = scoreController.getByUserName(MainActivity.username);
         scoreAdapter = new ScoreAdapter(getActivity(),cursor,true);
         lvScore.setAdapter(scoreAdapter);
     }

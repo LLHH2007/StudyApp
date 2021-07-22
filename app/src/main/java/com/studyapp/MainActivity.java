@@ -3,6 +3,14 @@ package com.studyapp;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -15,6 +23,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.studyapp.Activity.TestDoneActivity;
+import com.studyapp.Controller.QuestionController;
+import com.studyapp.Controller.UserController;
 import com.studyapp.Dao.DatabaseHelper;
 
 import com.studyapp.Fragment.CsharpFragment;
@@ -24,60 +35,176 @@ import com.studyapp.Fragment.JavascriptFragment;
 import com.studyapp.Fragment.PythonFragment;
 import com.studyapp.Fragment.ScoreFragment;
 import com.studyapp.Fragment.SearchQuestionFragment;
+import com.studyapp.Model.Question;
+import com.studyapp.Model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import kotlin.jvm.internal.Ref;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
     public static DatabaseHelper databaseHelper;
+    public static String username;
+    public static String subjectName;
+    private int role;
+    private boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Tao database
         databaseHelper = new DatabaseHelper(this,"DB.sqlite",null,1);
 //        //Tao bang
-//        databaseHelper.QueryData("CREATE TABLE IF NOT EXISTS question(_id INTEGER PRIMARY KEY AUTOINCREMENT, question VARCHAR(1000) NOT NULL,ans_a VARCHAR(1000) NOT NULL,ans_b VARCHAR(1000) NOT NULL,ans_c VARCHAR(1000) NOT NULL,ans_d VARCHAR(1000) NOT NULL,result VARCHAR(1000) NOT NULL,subject VARCHAR(1000) NOT NULL)");
-//        databaseHelper.QueryData("CREATE TABLE IF NOT EXISTS users(_id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(100) NOT NULL,password VARCHAR(100) NOT NULL,name VARCHAR(100) NOT NULL)");
-//        databaseHelper.QueryData("CREATE TABLE IF NOT EXISTS score(_id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(100) NOT NULL,subject VARCHAR(1000) NOT NULL,score double NOT NULL,date DATETIME default CURRENT_DATE)");
+        databaseHelper.QueryData("CREATE TABLE IF NOT EXISTS question(_id INTEGER PRIMARY KEY AUTOINCREMENT, question VARCHAR(1000) NOT NULL,ans_a VARCHAR(1000) NOT NULL,ans_b VARCHAR(1000) NOT NULL,ans_c VARCHAR(1000) NOT NULL,ans_d VARCHAR(1000) NOT NULL,result VARCHAR(1000) NOT NULL,subject VARCHAR(1000) NOT NULL)");
+        databaseHelper.QueryData("CREATE TABLE IF NOT EXISTS users(_id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(100) NOT NULL,password VARCHAR(100) NOT NULL,name VARCHAR(100) NOT NULL, role int not null)");
+        databaseHelper.QueryData("CREATE TABLE IF NOT EXISTS score(_id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(100) NOT NULL,subject VARCHAR(1000) NOT NULL,score double NOT NULL,date DATETIME default CURRENT_DATE)");
 //        //Them du lieu vao bang
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Print syntax in Java?','sysout','System.out.println()','cin','print','B','Java')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'1+1','2','3','4','1','A','Java')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'int','Integer','Int','Interger','gerTein','B','Java')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'2+2','3','4','5','6','B','Java')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'1+2','5','6','7','3','D','Java')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'C# question','sysout','System.out.println()','cin','print','B','CSharp')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'C# question2','2','3','4','1','A','CSharp')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'C# question3','Integer','Int','Interger','gerTein','B','CSharp')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'C# question4','3','4','5','6','B','CSharp')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'C# question5','5','6','7','3','D','CSharp')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Python question','sysout','System.out.println()','cin','print','B','Python')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Python question2','2','3','4','1','A','Python')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Python question3','Integer','Int','Interger','gerTein','B','Python')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Python question4','3','4','5','6','B','Python')");
-//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Python question5','5','6','7','3','D','Python')");
+//        databaseHelper.QueryData("INSERT INTO question VALUES(null,'Which of the following option leads to the portability and security of Java?','Bytecode is executed by JVM','System.out.println()','cin','print','B','Java')");
+//
+//        databaseHelper.QueryData("Insert into users values (null,'admin','admin','Admin',0)");
+//        databaseHelper.QueryData("Insert into users values (null,'longh','llhh2007','Long',1)");
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //Before login
+        login();
+        Button btnLogin = (Button)findViewById(R.id.btnLogin);
+        EditText edUserName = (EditText) findViewById(R.id.edUserName);
+        EditText edPassword = (EditText) findViewById(R.id.edPassword);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                if(edUserName.getText().toString().equals("")){
+                    Toast.makeText(MainActivity.this,"Please input username!",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(edPassword.getText().toString().equals("")){
+                    Toast.makeText(MainActivity.this,"Please input password!",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                UserController userController = new UserController();
+                List<User> users = userController.getAll();
+                for (User user:users) {
+                    if(user.getUsername().equalsIgnoreCase(edUserName.getText().toString())&&user.getPassword().equals(edPassword.getText().toString())){
+                        if(user.getRole()==1){
+                            role=1;
+                            check=true;
+                            username = user.getUsername();
+                            setContentView(R.layout.activity_main);
+                            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                            setSupportActionBar(toolbar);
+                            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                            fab.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+                                }
+                            });
+                            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                            drawer.setDrawerListener(toggle);
+                            toggle.syncState();
+
+                            NavigationView navigationView = (NavigationView) findViewById((R.id.nav_view));
+                            navigationView.setNavigationItemSelectedListener(MainActivity.this);
+
+                            FragmentManager manager = getSupportFragmentManager();
+                            HomeFragment homeFragment = new HomeFragment();
+                            manager.beginTransaction().replace(R.id.content_main, homeFragment, homeFragment.getTag()).commit();
+                            return;
+                        }else{
+                            check = true;
+                            role=0;
+                            setContentView(R.layout.admin_activity);
+
+                            ListView listView = (ListView)findViewById(R.id.listView);
+                            List<Question> questions = new QuestionController().getAll();
+                            Question[] ques = new Question[questions.size()];
+                            int i = 0;
+                            for (Question question:questions) {
+                                ques[i]=question;
+                                i++;
+                            }
+
+                            ArrayAdapter<Question> arrayAdapter
+                                    = new ArrayAdapter<Question>(MainActivity.this, android.R.layout.simple_list_item_1 , ques);
+
+                            listView.setAdapter(arrayAdapter);
+                            List<String> list = new ArrayList<>();
+                            list.add("Java");
+                            list.add("C#");
+                            list.add("Python");
+                            list.add("JavaScript");
+                            Spinner spinner = (Spinner) findViewById(R.id.spinner);
+                            ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_spinner_item,list);
+                            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+                            spinner.setAdapter(adapter);
+                            spinner.setSelection(0);
+                            Button btnAddNewQuestion = (Button) findViewById(R.id.btnAddQuestion);
+                            btnAddNewQuestion.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    EditText edtQuestion = (EditText) findViewById(R.id.edNewQues);
+                                    EditText edtA = (EditText) findViewById(R.id.edNewAnsA);
+                                    EditText edtB = (EditText) findViewById(R.id.edNewAnsB);
+                                    EditText edtC = (EditText) findViewById(R.id.edNewAnsC);
+                                    EditText edtD = (EditText) findViewById(R.id.edNewAnsD);
+                                    EditText edtResult = (EditText) findViewById(R.id.edNewCorrectAns);
+                                    if(edtQuestion.getText().toString().equals("")||edtA.getText().toString().equals("")||edtB.getText().toString().equals("")||edtC.getText().toString().equals("")||edtD.getText().toString().equals("")||edtResult.getText().toString().equals("")){
+                                        Toast.makeText(MainActivity.this,"Please input all fields!",Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
+                                    if(!(edtResult.getText().toString().equalsIgnoreCase("A")||edtResult.getText().toString().equalsIgnoreCase("B")||edtResult.getText().toString().equalsIgnoreCase("C")||edtResult.getText().toString().equalsIgnoreCase("D"))){
+                                        Toast.makeText(MainActivity.this,"Please input A or B or C or D for result!",Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
+                                    int position = spinner.getSelectedItemPosition();
+                                    switch(position){
+                                        case 0:
+                                            new QuestionController().insertQuestion(edtQuestion.getText().toString(),edtA.getText().toString(),edtB.getText().toString(),edtC.getText().toString(),edtD.getText().toString(),edtResult.getText().toString().toUpperCase(),"Java");
+                                            break;
+                                        case 1:
+                                            new QuestionController().insertQuestion(edtQuestion.getText().toString(),edtA.getText().toString(),edtB.getText().toString(),edtC.getText().toString(),edtD.getText().toString(),edtResult.getText().toString().toUpperCase(),"CSharp");
+                                            break;
+                                        case 2:
+                                            new QuestionController().insertQuestion(edtQuestion.getText().toString(),edtA.getText().toString(),edtB.getText().toString(),edtC.getText().toString(),edtD.getText().toString(),edtResult.getText().toString().toUpperCase(),"Python");
+                                            break;
+                                        case 3:
+                                            new QuestionController().insertQuestion(edtQuestion.getText().toString(),edtA.getText().toString(),edtB.getText().toString(),edtC.getText().toString(),edtD.getText().toString(),edtResult.getText().toString().toUpperCase(),"JavaScript");
+                                            break;
+                                    }
+
+                                    edtQuestion.setText("");
+                                    edtA.setText("");
+                                    edtB.setText("");
+                                    edtC.setText("");
+                                    edtD.setText("");
+                                    edtResult.setText("");
+                                    spinner.setSelection(0);
+                                    Toast.makeText(MainActivity.this,"Success!",Toast.LENGTH_LONG).show();
+                                    ListView listView = (ListView)findViewById(R.id.listView);
+                                    List<Question> questions = new QuestionController().getAll();
+                                    Question[] ques = new Question[questions.size()];
+                                    int i = 0;
+                                    for (Question question:questions) {
+                                        ques[i]=question;
+                                        i++;
+                                    }
+                                    ArrayAdapter<Question> arrayAdapter
+                                            = new ArrayAdapter<Question>(MainActivity.this, android.R.layout.simple_list_item_1 , ques);
+                                    listView.setAdapter(arrayAdapter);
+                                    return;
+                                }
+                            });
+                            return;
+                        }
+                    }
+                }
+                Toast.makeText(MainActivity.this,"Wrong username or password!",Toast.LENGTH_LONG).show();
             }
         });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar, R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById((R.id.nav_view));
-        navigationView.setNavigationItemSelectedListener(this);
-
-        FragmentManager manager = getSupportFragmentManager();
-        HomeFragment homeFragment = new HomeFragment();
-        manager.beginTransaction().replace(R.id.content_main,homeFragment,homeFragment.getTag()).commit();
     }
 
 
@@ -122,4 +249,11 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         drawerLayout.closeDrawer(GravityCompat.START);
         return false;
     }
+
+    private void login(){
+        check=false;
+        role = -1;
+        setContentView(R.layout.activity_login);
+    }
+
 }

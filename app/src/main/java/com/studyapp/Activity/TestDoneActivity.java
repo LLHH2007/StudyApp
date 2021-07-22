@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.studyapp.Controller.ScoreController;
+import com.studyapp.MainActivity;
 import com.studyapp.Model.Question;
 import com.studyapp.Model.Score;
 import com.studyapp.R;
@@ -90,7 +91,7 @@ public class TestDoneActivity extends AppCompatActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        scoreController.insertScore("LLHH2007","Java",totalScore);
+                        scoreController.insertScore(MainActivity.username,MainActivity.subjectName,totalScore);
                         Toast.makeText(TestDoneActivity.this,"Save success",Toast.LENGTH_LONG).show();
                         finish();
                         dialog.dismiss();

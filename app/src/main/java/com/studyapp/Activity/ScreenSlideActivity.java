@@ -117,8 +117,10 @@ public class ScreenSlideActivity extends FragmentActivity {
             mPager.setCurrentItem(0);
         }
         else{
-            mPager.setCurrentItem(mPager.getCurrentItem()+4);
-            mPager.setCurrentItem(mPager.getCurrentItem()-4);
+            mPager.setCurrentItem(mPager.getCurrentItem()-2);
+            mPager.setCurrentItem(mPager.getCurrentItem()+2);
+            mPager.setCurrentItem(mPager.getCurrentItem()-2);
+            mPager.setCurrentItem(0);
             mPager.setCurrentItem(0);
         }
         tvScore.setVisibility(View.VISIBLE);

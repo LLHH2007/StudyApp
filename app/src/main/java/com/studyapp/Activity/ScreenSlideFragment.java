@@ -79,7 +79,6 @@ public class ScreenSlideFragment extends Fragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Toast.makeText(getActivity(),"This is answer "+checkedId,Toast.LENGTH_SHORT).show();
                 questions.get(mPageNumber).choiceID = checkedId;
                 questions.get(mPageNumber).setAnswer(getChoiceFromId(checkedId));
             }
