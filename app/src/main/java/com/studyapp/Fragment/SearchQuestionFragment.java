@@ -1,27 +1,29 @@
 package com.studyapp.Fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.studyapp.Adapter.QuestionAdapter;
+import com.studyapp.Activity.MainActivity;
 import com.studyapp.Controller.QuestionController;
-import com.studyapp.MainActivity;
-import com.studyapp.Model.Question;
+import com.studyapp.Adapter.QuestionAdapter;
 import com.studyapp.R;
 
 import java.lang.reflect.Field;
@@ -54,6 +56,34 @@ public class SearchQuestionFragment extends Fragment {
         edtSearch = (EditText) getActivity().findViewById(R.id.edtSearch);
         questionController = new QuestionController();
         listCursor(questionController.getAllCursor());
+        lvQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor item = (Cursor) lvQuestion.getItemAtPosition(position);
+                //System.out.println(item.getString(1));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                View alert = LayoutInflater.from(getContext()).inflate(R.layout.questionsearchdialog,null);
+                builder.setView(alert);
+                TextView tvQues = (TextView) alert.findViewById(R.id.tvContentItem);
+                TextView tvAns = (TextView) alert.findViewById(R.id.tvAnsItem);
+                tvQues.setText(item.getString(1));
+                switch (item.getString(6).toUpperCase()){
+                    case "A":
+                        tvAns.setText("Answer: "+item.getString(2));
+                        break;
+                    case "B":
+                        tvAns.setText("Answer: "+item.getString(3));
+                        break;
+                    case "C":
+                        tvAns.setText("Answer: "+item.getString(4));
+                        break;
+                    case "D":
+                        tvAns.setText("Answer: "+item.getString(5));
+                        break;
+                }
+                builder.create().show();
+            }
+        });
     }
 
     @Override

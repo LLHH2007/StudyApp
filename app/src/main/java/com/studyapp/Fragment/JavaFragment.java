@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.studyapp.MainActivity;
+import com.studyapp.Activity.MainActivity;
 import com.studyapp.Model.Exam;
 import com.studyapp.R;
 
@@ -25,6 +25,7 @@ public class JavaFragment extends Fragment {
     ExamAdapter examAdapter;
     GridView gvExam;
     ArrayList<Exam> arr_exam = new ArrayList<Exam>();
+    public static int NUM_PAGES;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,26 @@ public class JavaFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),ScreenSlideActivity.class);
                 intent.putExtra("num_exam",position+1);
                 intent.putExtra("subject","Java");
+//                switch (position){
+//                    case 0:
+//                        NUM_PAGES=5;
+//                        break;
+//                    case 1:
+//                        NUM_PAGES=7;
+//                        break;
+//                    case 2:
+//                        NUM_PAGES=8;
+//                        break;
+//                    case 3:
+//                        NUM_PAGES=10;
+//                        break;
+//                    case 4:
+//                        NUM_PAGES=12;
+//                        break;
+//                    case 5:
+//                        NUM_PAGES=15;
+//                        break;
+//                }
                 startActivity(intent);
             }
         });

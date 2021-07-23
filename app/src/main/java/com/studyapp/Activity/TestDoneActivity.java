@@ -12,15 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.studyapp.Controller.ScoreController;
-import com.studyapp.MainActivity;
-import com.studyapp.Model.Question;
-import com.studyapp.Model.Score;
+import com.studyapp.Model.*;
+import com.studyapp.Controller.*;
 import com.studyapp.R;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,7 +26,7 @@ public class TestDoneActivity extends AppCompatActivity {
     int numFalse = 0;
     double totalScore = 0;
     TextView tvTrue, tvFalse, tvNotAns, tvTotalScore;
-    Button btnAgain, btnSave, btnExit;
+    Button  btnSave, btnExit;
     ScoreController scoreController;
 
     @Override
@@ -81,7 +76,7 @@ public class TestDoneActivity extends AppCompatActivity {
                 TextView tvScoreSave = (TextView)view.findViewById(R.id.tvScoreSave);
                 TextView tvSubjectSave = (TextView)view.findViewById(R.id.tvSubjectSave);
                 TextView tvDateSave = (TextView)view.findViewById(R.id.tvDateSave);
-                tvNameSave.setText("LLHH");
+                tvNameSave.setText(MainActivity.name);
                 tvScoreSave.setText(totalScore+"");
                 tvSubjectSave.setText("Java");
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -108,17 +103,6 @@ public class TestDoneActivity extends AppCompatActivity {
             }
         });
 
-        btnAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent2 = new Intent(TestDoneActivity.this, ScreenSlideActivity.class);
-                refresh();
-                intent2.putExtra("arr_Ques", arr_QuesBegin);
-                intent2.putExtra("test","no");
-                startActivity(intent2);
-            }
-        });
-
     }
 
     public void begin(){
@@ -128,7 +112,7 @@ public class TestDoneActivity extends AppCompatActivity {
         tvTotalScore = (TextView)findViewById(R.id.tvTotalScore);
         btnExit = (Button)findViewById(R.id.btnExit);
         btnSave = (Button)findViewById(R.id.btnSave);
-        btnAgain = (Button) findViewById(R.id.btnAgain);
+
     }
 
     //check ket qua

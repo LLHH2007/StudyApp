@@ -1,26 +1,19 @@
 package com.studyapp.Fragment;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.studyapp.Adapter.ScoreAdapter;
 import com.studyapp.Controller.ScoreController;
-import com.studyapp.MainActivity;
+import com.studyapp.Activity.MainActivity;
 import com.studyapp.R;
-
-import org.jetbrains.annotations.NotNull;
 
 
 public class ScoreFragment extends Fragment {

@@ -3,7 +3,7 @@ package com.studyapp.Controller;
 import android.database.Cursor;
 
 import com.studyapp.Dao.DatabaseHelper;
-import com.studyapp.MainActivity;
+import com.studyapp.Activity.MainActivity;
 import com.studyapp.Model.Question;
 import com.studyapp.Model.User;
 

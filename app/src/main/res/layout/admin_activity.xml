@@ -5,19 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Activity.MainActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView11"
+    <EditText
+        android:id="@+id/edtFindAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="List of questions"
-        android:textAlignment="center"
-        android:textColor="#AA2222"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:ems="10"
+        android:hint="Find question"
+        android:inputType="textPersonName" />
 
     <ListView
         android:id="@+id/listView"

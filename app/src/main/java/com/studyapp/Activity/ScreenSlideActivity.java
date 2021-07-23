@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.studyapp.Adapter.CheckAnswerAdapter;
 import com.studyapp.Controller.QuestionController;
+import com.studyapp.Fragment.JavaFragment;
 import com.studyapp.Model.Question;
 import com.studyapp.R;
 
@@ -43,7 +44,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 5;
+    public static int NUM_PAGES = 10;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -64,6 +65,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+
         mPager.setAdapter(pagerAdapter);
         mPager.setPageTransformer(true, new DepthPageTransformer());
 
@@ -80,7 +82,8 @@ public class ScreenSlideActivity extends FragmentActivity {
         //Gan gia tri cho controller va lay data
         questionController = new QuestionController();
         questionArrayList = new ArrayList<Question>();
-        questionArrayList = questionController.getBySubject(subject);
+        questionArrayList = questionController.getBySubject(subject,NUM_PAGES);
+
         tvOverView = (TextView)findViewById(R.id.tvOverView);
         tvOverView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,13 +117,14 @@ public class ScreenSlideActivity extends FragmentActivity {
         if(mPager.getCurrentItem()>=5){
             mPager.setCurrentItem(mPager.getCurrentItem()-4);
             mPager.setCurrentItem(mPager.getCurrentItem()+4);
+            mPager.setCurrentItem(mPager.getCurrentItem()-4);
             mPager.setCurrentItem(0);
         }
         else{
             mPager.setCurrentItem(mPager.getCurrentItem()-2);
             mPager.setCurrentItem(mPager.getCurrentItem()+2);
             mPager.setCurrentItem(mPager.getCurrentItem()-2);
-            mPager.setCurrentItem(0);
+            mPager.setCurrentItem(mPager.getCurrentItem()+2);
             mPager.setCurrentItem(0);
         }
         tvScore.setVisibility(View.VISIBLE);

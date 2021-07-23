@@ -30,6 +30,17 @@ public class Question implements Serializable {
         this.answer=answer;
     }
 
+    public Question(int id, String question, String ans_a, String ans_b, String ans_c, String ans_d, String result,  String subject){
+        this.id = id;
+        this.question = question;
+        this.ans_a = ans_a;
+        this.ans_b=ans_b;
+        this.ans_c=ans_c;
+        this.ans_d=ans_d;
+        this.result=result;
+        this.subject=subject;
+    }
+
     public int getId() {
         return id;
     }
