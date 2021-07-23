@@ -4,6 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Review your answers"
+        android:textSize="24dp"
+        android:gravity="center"
+        android:textAlignment="center" />
+
     <GridView
         android:id="@+id/gvLsQuestion"
         android:layout_width="match_parent"

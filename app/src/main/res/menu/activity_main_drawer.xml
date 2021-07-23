@@ -31,11 +31,11 @@
                     android:title="Javascript" />
                 <item
                     android:id="@+id/nav_viewScore"
-                    android:icon="@drawable/ico_javascript"
+                    android:icon="@drawable/ico_score"
                     android:title="View Score" />
                 <item
                     android:id="@+id/search"
-                    android:icon="@drawable/ico_javascript"
+                    android:icon="@drawable/ico_search"
                     android:title="Search question" />
             </group>
         </menu>

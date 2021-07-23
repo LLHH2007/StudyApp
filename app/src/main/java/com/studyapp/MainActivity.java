@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
                             NavigationView navigationView = (NavigationView) findViewById((R.id.nav_view));
                             navigationView.setNavigationItemSelectedListener(MainActivity.this);
+                            navigationView.setItemIconTintList(null);
 
                             FragmentManager manager = getSupportFragmentManager();
                             HomeFragment homeFragment = new HomeFragment();
